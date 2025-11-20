@@ -1,0 +1,70 @@
+import java.util.Observable;
+import java.util.Observer;
+
+class WeatherData extends Observable
+{
+	private float temperature;
+	private float humidity;
+	private float pressure;
+	public WeatherData(){}
+	public void measurementChanged()
+	{
+		setChanged();
+		notifyObservers();
+	}
+	public void setMeasurement(float temperature,float humidity,float pressure)
+    	{
+		this.temperature=temperature;
+		this.humidity=humidity;
+		this.pressure=pressure;
+	    measurementChanged();	
+	}	
+	public float getTemperature()
+	{
+		return temperature;
+	}
+	public float getHumidity()
+	{
+		return humidity;
+	}
+	public float getPressure()
+	{
+		return pressure;
+	}
+}
+class CurrentConditionDisplay implements Observer
+{
+	private float temperature;
+	private float humidity;
+	private float pressure;
+	public CurrentConditionDisplay(Observable observable)
+	{
+		observable.addObserver(this);
+	}
+	public void update(Observable obs,Object arg)
+	{
+		if(obs instanceof WeatherData)
+		{
+			WeatherData weatherData=(WeatherData)obs;
+			this.temperature=weatherData.getTemperature();
+			this.humidity=weatherData.getHumidity();
+			this.pressure=weatherData.getPressure();
+			display();
+		}
+	}
+	public void display()
+	{
+		System.out.println("Current conditions:"+temperature+" F: degree and:"+humidity+"% humidity and pressure:"+pressure );
+	}
+}
+public class Weather
+{
+	public static void main(String args[])
+	{
+		WeatherData weatherData=new WeatherData();
+		CurrentConditionDisplay currentDisplay=new CurrentConditionDisplay(weatherData);
+		weatherData.setMeasurement(30,25,23.4f);
+		weatherData.setMeasurement(40,34,33.4f);
+	}
+}
+
