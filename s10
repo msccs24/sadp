@@ -1,0 +1,114 @@
+public class DuckStrategyDemo {
+
+    // ---- Strategy Interfaces ----
+    interface FlyBehavior {
+        void fly();
+    }
+
+    interface QuackBehavior {
+        void quack();
+    }
+
+    // ---- Concrete Fly Behaviors ----
+    class FlyWithWings implements FlyBehavior {
+        public void fly() {
+            System.out.println("I'm flying with wings!");
+        }
+    }
+
+    class FlyNoWay implements FlyBehavior {
+        public void fly() {
+            System.out.println("I can't fly.");
+        }
+    }
+
+    class FlyRocketPowered implements FlyBehavior {
+        public void fly() {
+            System.out.println("I'm flying with a rocket!");
+        }
+    }
+
+    // ---- Concrete Quack Behaviors ----
+    class Quack implements QuackBehavior {
+        public void quack() {
+            System.out.println("Quack!");
+        }
+    }
+
+    class Squeak implements QuackBehavior {
+        public void quack() {
+            System.out.println("Squeak!");
+        }
+    }
+
+    class MuteQuack implements QuackBehavior {
+        public void quack() {
+            System.out.println("<< Silence >>");
+        }
+    }
+
+    // ---- Duck Superclass ----
+    abstract class Duck {
+        FlyBehavior flyBehavior;
+        QuackBehavior quackBehavior;
+
+        public void performFly() {
+            flyBehavior.fly();
+        }
+
+        public void performQuack() {
+            quackBehavior.quack();
+        }
+
+        public void setFlyBehavior(FlyBehavior fb) {
+            flyBehavior = fb;
+        }
+
+        public void setQuackBehavior(QuackBehavior qb) {
+            quackBehavior = qb;
+        }
+
+        public abstract void display();
+    }
+
+    // ---- Duck Types ----
+    class MallardDuck extends Duck {
+        MallardDuck() {
+            flyBehavior = new FlyWithWings();
+            quackBehavior = new Quack();
+        }
+        public void display() {
+            System.out.println("I'm a real Mallard Duck.");
+        }
+    }
+
+    class RubberDuck extends Duck {
+        RubberDuck() {
+            flyBehavior = new FlyNoWay();
+            quackBehavior = new Squeak();
+        }
+        public void display() {
+            System.out.println("I'm a Rubber Duck.");
+        }
+    }
+
+    // ---- MAIN ----
+    public static void main(String[] args) {
+        DuckStrategyDemo outer = new DuckStrategyDemo();
+
+        Duck mallard = outer.new MallardDuck();
+        mallard.display();
+        mallard.performFly();
+        mallard.performQuack();
+
+        System.out.println("\n--- Changing behavior at runtime ---");
+        mallard.setFlyBehavior(outer.new FlyRocketPowered());
+        mallard.performFly();
+        
+        System.out.println("\n----- Rubber Duck -----");
+        Duck rubber = outer.new RubberDuck();
+        rubber.display();
+        rubber.performFly();
+        rubber.performQuack();
+    }
+}
