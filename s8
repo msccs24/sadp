@@ -1,0 +1,72 @@
+interface State {
+    void insert();
+    void eject();
+    void turn();
+}
+class NoQuarter implements State {
+    GumballMachine m;
+    NoQuarter(GumballMachine m) { this.m = m; }
+    public void insert() { 
+        System.out.println("Quarter inserted.");
+        m.state = m.hasQuarter;
+    }
+    public void eject() { System.out.println("No quarter to eject."); }
+    public void turn() { System.out.println("Insert quarter first."); }
+}
+
+class HasQuarter implements State {
+    GumballMachine m;
+    HasQuarter(GumballMachine m) { this.m = m; }
+    public void insert() { System.out.println("Already inserted."); }
+    public void eject() { 
+        System.out.println("Quarter ejected."); 
+        m.state = m.noQuarter;
+    }
+    public void turn() {
+        System.out.println("Crank turned...");
+        m.releaseBall();
+    }
+}
+
+class SoldOut implements State {
+    GumballMachine m;
+    SoldOut(GumballMachine m) { this.m = m; }
+    public void insert() { System.out.println("Sold out."); }
+    public void eject() { System.out.println("Nothing to eject."); }
+    public void turn() { System.out.println("No gumballs."); }
+}
+
+class GumballMachine {
+    State noQuarter, hasQuarter, soldOut;
+    State state;
+    int count;
+
+    GumballMachine(int count) {
+        this.count = count;
+        noQuarter = new NoQuarter(this);
+        hasQuarter = new HasQuarter(this);
+        soldOut = new SoldOut(this);
+
+        state = (count > 0) ? noQuarter : soldOut;
+    }
+
+    void insertQuarter() { state.insert(); }
+    void ejectQuarter() { state.eject(); }
+    void turnCrank()    { state.turn(); }
+    void releaseBall() {
+        System.out.println("A gumball is released!");
+        count--;
+        state = (count > 0) ? noQuarter : soldOut;
+    }
+    public static void main(String[] args) {
+        GumballMachine g = new GumballMachine(2);
+
+        g.insertQuarter();
+        g.turnCrank();
+        g.insertQuarter();
+        g.ejectQuarter();
+        g.insertQuarter();
+        g.turnCrank();
+        g.insertQuarter();  // sold out
+    }
+}
