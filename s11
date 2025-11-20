@@ -1,0 +1,72 @@
+public class CommandPatternShort {
+
+    // --- Command Interface ---
+    interface Command { void execute(); }
+
+    // --- Receivers ---
+    static class Light {
+        void on()  { System.out.println("Light ON"); }
+        void off() { System.out.println("Light OFF"); }
+    }
+
+    static class GarageDoor {
+        void up() { System.out.println("Garage Door UP"); }
+    }
+
+    static class Stereo {
+        void on()      { System.out.println("Stereo ON"); }
+        void setCD()   { System.out.println("Stereo set to CD"); }
+        void setVol(int v) { System.out.println("Volume = " + v); }
+    }
+
+    // --- Commands ---
+    static class LightOnCommand implements Command {
+        Light light; LightOnCommand(Light l) { light = l; }
+        public void execute() { light.on(); }
+    }
+
+    static class LightOffCommand implements Command {
+        Light light; LightOffCommand(Light l) { light = l; }
+        public void execute() { light.off(); }
+    }
+
+    static class GarageDoorUpCommand implements Command {
+        GarageDoor g; GarageDoorUpCommand(GarageDoor g) { this.g = g; }
+        public void execute() { g.up(); }
+    }
+
+    static class StereoOnWithCDCommand implements Command {
+        Stereo s; StereoOnWithCDCommand(Stereo s) { this.s = s; }
+        public void execute() {
+            s.on(); s.setCD(); s.setVol(10);
+        }
+    }
+
+    // --- Simple Remote ---
+    static class Remote {
+        Command slot;
+        void setCommand(Command c) { slot = c; }
+        void press() { slot.execute(); }
+    }
+
+    // --- MAIN ---
+    public static void main(String[] args) {
+        Remote remote = new Remote();
+
+        Light light = new Light();
+        GarageDoor garage = new GarageDoor();
+        Stereo stereo = new Stereo();
+
+        remote.setCommand(new LightOnCommand(light));
+        remote.press();
+
+        remote.setCommand(new LightOffCommand(light));
+        remote.press();
+
+        remote.setCommand(new GarageDoorUpCommand(garage));
+        remote.press();
+
+        remote.setCommand(new StereoOnWithCDCommand(stereo));
+        remote.press();
+    }
+}
