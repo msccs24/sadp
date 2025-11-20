@@ -1,0 +1,118 @@
+import java.util.Scanner;
+public class Q3_Pizza {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Welcome to the Pizza Store!");
+        System.out.println("Select a store : \n1. NY Pizza Store \n2. Chicago Pizza Store");
+        System.out.print("Enter your choice: ");
+        int storeChoice = scanner.nextInt();
+        PizzaStore pizzaStore;
+
+        if (storeChoice == 1) {
+            pizzaStore = new NyPizzaStore();
+        } else if (storeChoice == 2) {
+            pizzaStore = new ChicagoPizzaStore();
+        } else {
+            System.out.println("Invalid choice. Exiting.");
+            return;
+        }
+        while (true) {
+            System.out.println("Menu:");
+            System.out.println("1. Pizza");
+            System.out.println("2. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+            if (choice == 1) {
+                System.out.println("Enter pizza size: \n1. Small \n2. Medium \n3. Large");
+                System.out.println("Enter your choice: ");
+                int p_choice = scanner.nextInt();
+                String size;
+                switch (p_choice) {
+                    case 1:
+                        size = "Small";
+                        break;
+                    case 2:
+                        size = "Medium";
+                        break;
+                    case 3:
+                        size = "Large";
+                        break;
+                    default:
+                        System.out.print("Invalid choice. Exiting.");
+                        return;
+                }
+                System.out.println("Pizza type available : Cheese");
+//                String size = scanner.next().toLowerCase();
+//                String pizzaType = scanner.next().toLowerCase();
+//                String pizzaType = "Cheese";
+                Pizza pizza = pizzaStore.orderPizza(size);
+                if (pizza != null) {
+                    System.out.println("You ordered a " + pizza.size + " " + pizza.name + " pizza");
+                }
+            } else if (choice == 2) {
+                System.out.println("You are out of menu");
+                break;
+            } else {
+                System.out.println("Invalid choice. Please try again.");
+            }
+        }
+        scanner.close();
+    }
+}
+abstract class Pizza {
+    String name;
+    String size;
+    void prepare() {
+        System.out.println("Preparing " + size + " " + name + " pizza");
+    }
+    void bake() {
+        System.out.println("Baking " + size + " " + name + " pizza");
+    }
+    void cut() {
+        System.out.println("Cutting " + size + " " + name + " pizza");
+    }
+    void box() {
+        System.out.println("Boxing " + size + " " + name + " pizza");
+    }
+}
+
+class NyStyleCheesePizza extends Pizza {
+    NyStyleCheesePizza(String size) {
+        name = "NY Style Cheese";
+        this.size = size;
+    }
+}
+class ChicagoStyleCheesePizza extends Pizza {
+    ChicagoStyleCheesePizza(String size) {
+        name = "Chicago Style Cheese";
+        this.size = size;
+    }
+}
+abstract class PizzaStore {
+    abstract Pizza createPizza(String size);
+    Pizza orderPizza(String size) {
+        Pizza pizza = createPizza(size);
+        if (pizza != null) {
+            pizza.prepare();
+            pizza.bake();
+            pizza.cut();
+            pizza.box();
+            return pizza;
+        } else {
+            System.out.println("Sorry, we don't have that pizza type.");
+            return null;
+        }
+    }
+}
+class NyPizzaStore extends PizzaStore {
+    Pizza createPizza(String size) {
+        return new NyStyleCheesePizza(size);
+    }
+}
+class ChicagoPizzaStore extends PizzaStore {
+    Pizza createPizza(String size) {
+        return new ChicagoStyleCheesePizza(size);
+    }
+}
+
+
