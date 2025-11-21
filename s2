@@ -33,3 +33,57 @@ public class Singleton{
     }
 }
 
+
+#include <LiquidCrystal.h> 
+
+// initialize the library with the numbers of the interface pins 
+LiquidCrystal lcd(13, 12, 11, 10, 9, 8); 
+
+// defines pins numbers
+const int trigPin = 2;
+const int echoPin = 3;
+
+// defines variables
+long duration;
+int distance;
+
+void setup() 
+{
+  pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
+  pinMode(echoPin, INPUT); // Sets the echoPin as an Input
+  
+  lcd.begin(20, 4); // set up the LCD's number of columns and rows:
+  lcd.setCursor(0,0); // set the cursor position:
+  lcd.print("  THE BRIGHT LIGHT    ");
+  lcd.setCursor(0,1);
+  lcd.print("DISTENCE MEASUREMENT             ");
+}
+void loop() 
+{
+  // Clears the trigPin
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+
+  // Sets the trigPin on HIGH state for 10 micro seconds
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+
+  duration = pulseIn(echoPin, HIGH);
+
+  // Calculating the distance in cm
+  distance = duration*0.034/2;
+  
+  // Adust the distance Range (2cm to 400cm)
+  int D = map(distance, 10, 1095, 2, 400);
+  
+
+  lcd.setCursor(0,2); 
+  lcd.print(" Distance: "); 
+  lcd.print(D);
+  lcd.print("cm     ");
+  lcd.setCursor(0,3); 
+  lcd.print(" Distance: "); 
+  lcd.print(D/30.48);
+  lcd.print("ft     ");
+}
