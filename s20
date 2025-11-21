@@ -50,4 +50,42 @@ class Q2_InputTest
 }
 
 
+name = input("Enter your name: ")
+print("Hello", name)
+
+a = float(input("Enter first number: "))
+b = float(input("Enter second number: "))
+print("Sum =", a + b)
+print("Difference =", a - b)
+print("Product =", a * b)
+if b != 0:
+    print("Division =", a / b)
+else:
+    print("Division = Not possible (division by zero)")
+
+text = input("Enter a string: ")
+word_count = len(text.split())
+char_count = len(text)
+print("Word Count:", word_count)
+print("Character Count:", char_count)
+
+import math
+shape = input("Enter shape (rectangle/triangle/circle): ").lower()
+if shape == "rectangle":
+    length = float(input("Enter length: "))
+    width = float(input("Enter width: "))
+    area = length * width
+    print("Area of Rectangle =", area)
+elif shape == "triangle":
+    base = float(input("Enter base: "))
+    height = float(input("Enter height: "))
+    area = 0.5 * base * height
+    print("Area of Triangle =", area)
+elif shape == "circle":
+    radius = float(input("Enter radius: "))
+    area = math.pi * radius * radius
+    print("Area of Circle =", area)
+else:
+    print("Invalid shape entered.")
+
 
