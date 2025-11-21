@@ -1,1 +1,15 @@
+#include <CapacitiveSensor.h>
+const int touchPin = 2;
+const int touchThreshold = 50;
+CapacitiveSensor touchSensor = CapacitiveSensor(0, touchPin);
+void setup() {
+    Serial.begin(9600);
+}
 
+void loop() {
+    long touchValue = touchSensor.capacitiveSensor(30);
+    if (touchValue > touchThreshold) {
+        Serial.println("Finger detected!");
+        delay(1000); // wait for 1 second to prevent multiple detections
+    }
+}
