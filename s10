@@ -112,3 +112,50 @@ public class DuckStrategyDemo {
         rubber.performQuack();
     }
 }
+
+
+
+name = input("Enter the Name: ")
+n = int(input("Enter the n: "))
+print("For loop:")
+for i in range(n):
+    print(i," Hello ",name)
+print("While loop:")
+i = 0
+while i < n:
+    print(name)
+    i += 1    
+
+
+print("\n")
+try:
+    a  = float(input("Enter the Number: "))
+    b = float(input("Enter the Number: "))
+    ans = a/b
+    print("Division of two number is : ",ans)
+except ZeroDivisionError:
+    print("Error: Can not division by zero")    
+
+
+print("\n")
+from datetime import datetime
+import time
+for i in range(10):
+    print("current date: ",datetime.now().strftime("%H:%M:%S"))
+    time.sleep(10)
+
+
+print("\n")
+fileName = input("Enter the File Name : ")
+try:
+    with open(fileName,'r') as file:
+        line_no = 1
+        for line in file:
+            words = line.split()
+            print(f"Line {line_no} ->Word Count {len(words)}")
+            line_no += 1
+
+except FileNotFoundError:
+    print("Error : File not found")            
+
+
