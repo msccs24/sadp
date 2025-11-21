@@ -18,7 +18,6 @@ public class Q3_Pizza {
             System.out.println("Invalid choice. Exiting.");
             return;
         }
-
         while (true) {
             System.out.println("Menu:");
             System.out.println("1. Pizza");
