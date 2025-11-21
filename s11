@@ -70,3 +70,70 @@ public class CommandPatternShort {
         remote.press();
     }
 }
+
+
+import RPi.GPIO as GPIO
+import time
+GPIO.setmode(GPIO.BCM)
+LED = 17
+GPIO.setup(LED, GPIO.OUT)
+print("LED ON")
+GPIO.output(LED, True)
+time.sleep(5)
+print("LED OFF")
+GPIO.output(LED, False)
+GPIO.cleanup()
+
+
+import RPi.GPIO as GPIO
+import time
+GPIO.setmode(GPIO.BCM)
+SW1 = 2
+SW2 = 3
+LED1 = 17
+LED2 = 27
+GPIO.setup(SW1, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(SW2, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(LED1, GPIO.OUT)
+GPIO.setup(LED2, GPIO.OUT)
+print("Press switches...")
+try:
+    while True:
+        if GPIO.input(SW1):
+            GPIO.output(LED1, True)
+        else:
+            GPIO.output(LED1, False)
+        if GPIO.input(SW2):
+            GPIO.output(LED2, True)
+        else:
+            GPIO.output(LED2, False)
+        time.sleep(0.1)
+    GPIO.cleanup()
+
+#times.txt
+on=1.5
+off=0.5
+
+import RPi.GPIO as GPIO
+import time
+# Read ON and OFF times from file
+on_time = 1
+off_time = 1
+with open("times.txt", "r") as f:
+    for line in f:
+        if "on=" in line:
+            on_time = float(line.split("=")[1])
+        if "off=" in line:
+            off_time = float(line.split("=")[1])
+GPIO.setmode(GPIO.BCM)
+LED = 17
+GPIO.setup(LED, GPIO.OUT)
+print(f"Flashing LED: ON={on_time}s OFF={off_time}s")
+try:
+    while True:
+        GPIO.output(LED, True)
+        time.sleep(on_time)
+        GPIO.output(LED, False)
+        time.sleep(off_time)
+    GPIO.cleanup()
+
