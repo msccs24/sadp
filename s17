@@ -1,0 +1,64 @@
+// AbstractFactoryDemo.java
+public class AbstractFactoryDemo {
+
+    // ----- Shape interface -----
+    interface Shape {
+        void draw();
+    }
+
+    // ----- Concrete Shapes -----
+    static class Rectangle implements Shape {
+        public void draw() { System.out.println("Drawing Rectangle"); }
+    }
+
+    static class Square implements Shape {
+        public void draw() { System.out.println("Drawing Square"); }
+    }
+
+    static class Circle implements Shape {
+        public void draw() { System.out.println("Drawing Circle"); }
+    }
+
+    // ----- Abstract Factory -----
+    interface AbstractFactory {
+        Shape getShape(String type);
+    }
+
+    // ----- Concrete Factories -----
+    static class RoundedShapeFactory implements AbstractFactory {
+        public Shape getShape(String type) {
+            if (type.equalsIgnoreCase("CIRCLE")) return new Circle();
+            else return null;
+        }
+    }
+
+    static class NormalShapeFactory implements AbstractFactory {
+        public Shape getShape(String type) {
+            if (type.equalsIgnoreCase("RECTANGLE")) return new Rectangle();
+            else if (type.equalsIgnoreCase("SQUARE")) return new Square();
+            else return null;
+        }
+    }
+
+    // ----- Factory Producer -----
+    static class FactoryProducer {
+        static AbstractFactory getFactory(boolean rounded) {
+            return rounded ? new RoundedShapeFactory() : new NormalShapeFactory();
+        }
+    }
+
+    // ----- MAIN -----
+    public static void main(String[] args) {
+
+        AbstractFactory shapeFactory = FactoryProducer.getFactory(false);
+        Shape rect = shapeFactory.getShape("RECTANGLE");
+        rect.draw();
+
+        Shape sq = shapeFactory.getShape("SQUARE");
+        sq.draw();
+
+        AbstractFactory roundedFactory = FactoryProducer.getFactory(true);
+        Shape circle = roundedFactory.getShape("CIRCLE");
+        circle.draw();
+    }
+}
