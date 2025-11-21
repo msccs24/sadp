@@ -1,1 +1,38 @@
+name = input("Enter your name: ")
+print("Hello", name, "welcome to Raspberry Pi!")
 
+a = float(input("Enter first number: "))
+b = float(input("Enter second number: "))
+print("Sum:", a + b)
+print("Difference:", a - b)
+print("Product:", a * b)
+if b != 0:
+    print("Division:", a / b)
+else:
+    print("Division: Cannot divide by zero")
+
+text = input("Enter a string: ")
+words = text.split()
+word_count = len(words)
+char_count = len(text)
+print("Word count:", word_count)
+print("Character count:", char_count)
+
+print("Choose a shape: rectangle, triangle, circle")
+shape = input("Enter shape: ").lower()
+if shape == "rectangle":
+    length = float(input("Enter length: "))
+    width = float(input("Enter width: "))
+    area = length * width
+    print("Area of rectangle:", area)
+elif shape == "triangle":
+    base = float(input("Enter base: "))
+    height = float(input("Enter height: "))
+    area = 0.5 * base * height
+    print("Area of triangle:", area)
+elif shape == "circle":
+    radius = float(input("Enter radius: "))
+    area = 3.14159 * radius * radius
+    print("Area of circle:", area)
+else:
+    print("Invalid shape!")
