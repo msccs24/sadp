@@ -27,7 +27,6 @@ class HasQuarter implements State {
         m.releaseBall();
     }
 }
-
 class SoldOut implements State {
     GumballMachine m;
     SoldOut(GumballMachine m) { this.m = m; }
@@ -35,12 +34,10 @@ class SoldOut implements State {
     public void eject() { System.out.println("Nothing to eject."); }
     public void turn() { System.out.println("No gumballs."); }
 }
-
 class GumballMachine {
     State noQuarter, hasQuarter, soldOut;
     State state;
     int count;
-
     GumballMachine(int count) {
         this.count = count;
         noQuarter = new NoQuarter(this);
